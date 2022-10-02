@@ -1,0 +1,20 @@
+.list-group{
+    display: flex;
+    width: 100%;
+}
+.form-group{
+    display: flex;
+}
+.form-control{
+    width:80%;
+    height: 110px;
+}
+.btn{
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+    width:17%;
+    height: 5%;
+    margin-top: 30px;
+    font-size: 20px;
+}
