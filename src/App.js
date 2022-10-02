@@ -8,6 +8,7 @@ import RepoDetail from "./components/RepoDetail/RepoDetail";
 import { supabase } from "./components/Client/client";
 
 function App() {
+
   const [userDetail, setUser1] = useState(null);
   const [user, setUser] = useState({
     prof: {},
@@ -83,22 +84,23 @@ function App() {
           {user.prof.id && (
             <>
               <Row>
-                <Col sm="6">
+                <Col sm="5">
                   <Card body>
                     <h2>My GitHub Repos</h2>
                     <RepoList>
                       {user.repos.map((r) => (
                         <li className="repo" key={r.id}>
-                          <Repo repo={r} />
+                          <Repo repo={r}/>
                         </li>
                       ))}
                     </RepoList>
                   </Card>
                 </Col>
-                <Col sm="6">
+                <Col sm="7">
+
                   <Card body>
                     <h2>My Todo List</h2>
-                    <RepoDetail></RepoDetail>
+                      <RepoDetail></RepoDetail>                  
                   </Card>
                 </Col>
               </Row>
