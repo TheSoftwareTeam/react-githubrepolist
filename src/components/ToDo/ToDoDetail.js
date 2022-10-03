@@ -1,48 +1,60 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import "./RepoDetail.css";
+import "./ToDo.css";
 import { Button, Card, ListGroup, ListGroupItem } from "reactstrap";
 import { FcTodoList } from "react-icons/fc";
 import { supabase } from "../Client/client";
 import { TiDeleteOutline } from "react-icons/ti";
-export default function RepoDetail() {
+
+
+export default function ToDoDetail(props) {
+  const task_id = props.task_id;
+
+
   const [count] = useState(0);
   const [todos, setTodos] = useState([]);
 
-  const selectTodos = async () => {
+  const selectTodos = async () => { 
+    console.log(task_id);
     let { data } = await supabase
-      .from("todo_task")
+      .from("todo_subtask")
       .select("*")
-      .order("id", { ascending: false });
+      /*.eq("task_id",task_id)*/
+      .order("subtask_id", { ascending: false });
     setTodos(data);
   };
 
   useEffect(() => {
+   
+    console.log(task_id);
     selectTodos();
+
   }, []);
 
-  return (
-    <div className="Todo-card">
-      <nav></nav>
-
-      <AddTodo setTodos={selectTodos} />
+  return ( 
+    <div className="Todo-card"> 
+      <nav></nav> 
+      <h2>Todo Details</h2>
+      
       <div className="List-view">
         {todos &&
           todos.map((todoItem) => (
-            <Todo key={todoItem.id} {...todoItem} setTodos={setTodos} />
+            <Todo key={todoItem.subtask_id} {...todoItem} setTodos={setTodos} task_id={todoItem.task_id}/>
           ))}
       </div>
+      <AddTodo setTodos={selectTodos} task_id={task_id}/>
     </div>
   );
 }
-const AddTodo = ({ setTodos }) => {
-  const [task, setTask] = useState("");
+const AddTodo = ({ setTodos }, props) => {
+  const task_id = props.task_id;
+  const [subtask, setTask] = useState("");
   const onSubmit = (event) => {
     event.preventDefault();
-    if (task === "") return;
+    if (subtask === "") return;
     supabase
-      .from("todo_task")
-      .insert({ task: task, user_id: supabase.auth.user().id })
+      .from("todo_subtask")
+      .insert({ subtask: subtask, user_id: supabase.auth.user().id, task_id:{task_id} })
       .single()
       .then(({ data, error }) => {
         console.log(data, error);
@@ -63,15 +75,15 @@ const AddTodo = ({ setTodos }) => {
   return (
     <form className="Input-container">
       <input
-        id="text"
+        subtask_id="text"
         className="Input-field App-border-radius"
-        placeholder="Add task"
+        placeholder="Sub Task Description"
         type="text"
-        value={task}
+        value={subtask}
         onChange={(e) => setTask(e.target.value)}
       />
       <button
-        id="btn"
+        subtask_id="btn"
         type="submit"
         onClick={onSubmit}
         className="App-button Add-button App-border-radius"
@@ -84,26 +96,30 @@ const AddTodo = ({ setTodos }) => {
   );
 };
 
-const Todo = ({ id, is_completed, task: task, setTodos }) => {
-  const [todo, setTodo] = useState(task);
+const Todo = ({ subtask_id, is_completed, subtask: subtask, setTodos ,task_id}) => {
+  const [todo, setTodo] = useState(subtask);
   const [completed, setCompleted] = useState(is_completed);
 
-  const onEditTodo = (id) => {
+  const onEditTodo = (subtask_id) => {
     if (todo === "") return;
     supabase
-      .from("todo_task")
-      .update({ task: todo })
-      .match({ id })
+      .from("todo_subtask")
+      .select("*")
+      .eq("task_id",{task_id})
+      .update({ subtask: todo })
+      .match({ subtask_id })
       .then((value, error) => {
         console.log(value, error);
       });
   };
 
-  const onCompleteTodo = (id) => {
+  const onCompleteTodo = (subtask_id) => {
     supabase
-      .from("todo_task")
+      .from("todo_subtask")
+      .select("*")
+      .eq("task_id",{task_id})
       .update({ is_completed: !completed })
-      .match({ id })
+      .match({ subtask_id })
       .then(({ data, error }) => {
         console.log(data, error);
         if (!error) {
@@ -113,25 +129,25 @@ const Todo = ({ id, is_completed, task: task, setTodos }) => {
   };
 
   const onDeleteTodo = async () => {
-    const { error } = await supabase.from("todo_task").delete().match({ id });
+    const { error } = await supabase.from("todo_subtask").delete().match({ subtask_id });
     if (!error) {
       setTodos((prev) => {
         return prev.filter((todoItem) => {
-          return todoItem.id !== id;
+          return todoItem.subtask_id !== subtask_id;
         });
       });
     }
   };
 
   return (
-    <div key={id} className="List-tile App-border-radius">
+    <div key={subtask_id} className="List-tile App-border-radius">
       <input
         checked={completed}
         className="List-tile-leading"
         type="checkbox"
         onChange={(e) => {
           e.preventDefault();
-          onCompleteTodo(id);
+          onCompleteTodo(subtask_id);
         }}
       />
       <input
@@ -150,15 +166,16 @@ const Todo = ({ id, is_completed, task: task, setTodos }) => {
           setTodo(value);
         }}
       />
-      {task !== todo && (
+      {subtask !== todo && (
         <button
-          onClick={() => onEditTodo(id, todo)}
+          onClick={() => onEditTodo(subtask_id, todo)}
           className="Todo-update-submit"
         >
           save
         </button>
       )}
-      <TiDeleteOutline className="List-tile-trailing" onClick={onDeleteTodo} />
+      {subtask !== todo && <button onClick={() => onEditTodo(subtask_id, todo)} className="Todo-update-submit">save</button>}
+    <TiDeleteOutline className="List-tile-trailing" onClick={onDeleteTodo} />
     </div>
   );
 };

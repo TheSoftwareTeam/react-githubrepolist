@@ -43,6 +43,7 @@ export const Titles = styled.div`
 export const RepoName = styled.h3`
   padding: auto;
   margin: 0;
+  
   color: ${textColor};
 `;
 

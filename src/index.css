@@ -13,8 +13,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
+ 
 }
 
+.card1{
+
+  border: 2px solid black;
+}
+
+.card2{
+  margin-top: 10px;
+  border: 2px solid black;
+}
 *::selection {
   background-color: #c2c2c2;
 }
@@ -25,6 +35,34 @@ body {
 }
 nav {
   text-align: right;
+}
+.dataBtn{
+  
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+    width: 12%;
+    height: 8%;
+    margin-top: 20px;
+    margin-right: 120px;
+    font-size: 20px;
+
+    border-radius: 15px;
+}
+.outBtn{
+  display: flex;
+  justify-content: center;
+  margin-left: 100%;
+  margin-right: 100%;
+  right: 0;
+  margin-left: 88%;
+  width: 12%;
+  height: 8%;
+  
+
+  
+  font-size: 20px;
+  border-radius: 15px;
 }
 
 .App {
@@ -118,6 +156,8 @@ nav {
   align-items: flex-end;
   gap: 0.6rem;
   padding: 1rem 1.25rem;
+  width: 70%;
+  margin: 0.2rem;
   font-size: 1.65rem;
   transition: var(--app-transition);
 }
@@ -179,4 +219,9 @@ nav {
 
 .Todo-update-submit:hover {
   box-shadow: 2px 2px 8px 2px #282c3454;
+}
+.details{
+  color: black;
+  cursor: pointer;
+  
 }

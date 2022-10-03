@@ -20,7 +20,7 @@ export const Topbar = styled.div`
   align-items: center;
   text-align: center;
   background-color: ${background};
-  margin: 10px 10px 0 10px;
+  margin: 10px 0px 10px 0px;
   padding: 10px;
   border-radius: 5px;
 
@@ -39,6 +39,7 @@ export const Topbar = styled.div`
 export const Title = styled.h1`
   float: left;
   margin: 0 0 0 5px;
+  color:white;
 `;
 
 export const RepoList = styled.ul`
