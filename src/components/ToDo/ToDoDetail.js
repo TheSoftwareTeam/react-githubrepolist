@@ -1,8 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import "./ToDo.css";
-import { Button, Card, ListGroup, ListGroupItem } from "reactstrap";
-import { FcTodoList } from "react-icons/fc";
 import { supabase } from "../Client/client";
 import { TiDeleteOutline } from "react-icons/ti";
 
@@ -11,7 +9,7 @@ export default function ToDoDetail(props) {
   const task_id = props.task_id;
 
 
-  const [count] = useState(0);
+
   const [todos, setTodos] = useState([]);
 
   const selectTodos = async () => { 
@@ -19,7 +17,7 @@ export default function ToDoDetail(props) {
     let { data } = await supabase
       .from("todo_subtask")
       .select("*")
-      /*.eq("task_id",task_id)*/
+      //.eq("task_id",task_id)
       .order("subtask_id", { ascending: false });
     setTodos(data);
   };
@@ -35,7 +33,7 @@ export default function ToDoDetail(props) {
     <div className="Todo-card"> 
       <nav></nav> 
       <h2>Todo Details</h2>
-      
+      <button onClick={selectTodos}>Tıkla</button>
       <div className="List-view">
         {todos &&
           todos.map((todoItem) => (

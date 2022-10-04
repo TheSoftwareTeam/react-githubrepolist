@@ -8,7 +8,7 @@ import Todo from "../components/ToDo/ToDo";
 import { supabase } from "./Client/client";
 import ToDoDetail from "./ToDo/ToDoDetail";
 
-function Home() {
+function Home(props) {
 
 
 //   const [todos, setTodos] = useState([]);
@@ -23,6 +23,8 @@ function Home() {
 //   useEffect(() => {
 //     selectTodos();
 //   }, []);
+
+
 
   const [userDetail, setUser1] = useState(null);
   const [user, setUser] = useState({
@@ -113,10 +115,10 @@ function Home() {
               </Col>
               <Col sm="7">
                 <Card body className="card1">
-                  <Todo />
+                  <Todo task_id={props.task_id}/>
                 </Card>
                 <Card body className="card2">
-                    <ToDoDetail />
+                    <ToDoDetail task_id={props.task_id}/>
                 </Card>
                 
               </Col>

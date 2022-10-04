@@ -7,9 +7,10 @@ import { supabase } from "../Client/client";
 import { TiDeleteOutline } from "react-icons/ti";
 import ToDoDetail from "./ToDoDetail";
 import App from "../../App";
+import Home from "../Home";
 
 
-export default function ToDo() {
+export default function ToDo(props) {
 
   const [count] = useState(0);
   const [todos, setTodos] = useState([]);
@@ -35,7 +36,8 @@ export default function ToDo() {
       <div className="List-view">
         {todos &&
           todos.map((todoItem) => (
-            <Todo key={todoItem.task_id} {...todoItem} setTodos={setTodos} />
+            <Todo key={todoItem.task_id} {...todoItem} setTodos={setTodos} props/>
+            
           ))}
       </div>
       <AddTodo setTodos={selectTodos} />
@@ -91,12 +93,14 @@ const AddTodo = ({ setTodos }) => {
   );
 };
 
-const Todo = ({ task_id, is_completed, task: task, setTodos,index }) => {
+const Todo = ({ task_id, is_completed, task: task, setTodos, index }, props) => {
 
   function handleClick (e) {
     console.log(task_id);
+    <ToDoDetail task_id={task_id}/>
     e.preventDefault();
-    
+    props.task_id=task_id;
+    console.log(props.task_id);
   }
 
 
