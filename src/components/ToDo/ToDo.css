@@ -21,3 +21,8 @@
 .List-view{
     margin-bottom: 30px;
 }
+.details{
+    color: black;
+    cursor: pointer;
+    
+  }

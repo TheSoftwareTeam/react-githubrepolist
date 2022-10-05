@@ -2,15 +2,10 @@
 import React from "react";
 import { useEffect, useState, useCallback } from "react";
 import "./ToDo.css";
-import { Button, Card, Col, ListGroup, ListGroupItem } from "reactstrap";
-import { FcTodoList } from "react-icons/fc";
+import {Card, Col } from "reactstrap";
+
 import { supabase } from "../Client/client";
 import { TiDeleteOutline } from "react-icons/ti";
-import ToDoDetail from "./ToDoDetail";
-import App from "../../App";
-import Home from "../Home";
-import { Link } from "react-router-link";
-import PropTypes from "prop-types";
 
 export default function ToDo() {
   const [eldekiId, setEldekiId] = useState([]);
@@ -332,8 +327,8 @@ const Tododetail = ({ gettask_id }) => {
           </div>
           
         ))}<AddTododetail setTodosdetail={selectTodosdetail}
-        gettask_id={gettask_id}
-      />
+            gettask_id={gettask_id}
+          />
     </div>
   );
 };
@@ -355,8 +350,11 @@ const AddTododetail = ({setTodosdetail, gettask_id  }) => {
         console.log(data, error);
         if (!error) {
           setTodosdetail((prevTodos) => [data, ...prevTodos]);
+         //Sorunlu düzeltilecek (Aynı listeyi üstüne yazdırıyor.)
         }
       });
+      console.log(subtask);
+      
   };
 
   // const btn = document.getElementById("btn");
@@ -374,6 +372,7 @@ const AddTododetail = ({setTodosdetail, gettask_id  }) => {
         placeholder="Sub Task Description"
         type="text"
         value={subtask}
+        
         onChange={(e) => setTask(e.target.value)}
       />
       <button

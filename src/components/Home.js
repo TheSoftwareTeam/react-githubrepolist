@@ -6,7 +6,6 @@ import { Router, Route, BrowserRouter } from "react-router";
 import Repo from "../components/Repo/Repo";
 import Todo from "../components/ToDo/ToDo";
 import { supabase } from "./Client/client";
-import ToDoDetail from "./ToDo/ToDoDetail";
 
 function Home() {
 
