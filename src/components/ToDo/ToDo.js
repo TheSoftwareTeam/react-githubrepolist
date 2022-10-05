@@ -79,9 +79,10 @@ var index=1;
           <div className="Todo-card">
             <nav></nav>
             <h2>My Todo List</h2>
-            <div className="List-view">
+            <div className="List-view ">
+              
               {todos &&
-                todos.map((todoItem) => (
+                todos.slice().reverse().map((todoItem) => (
                   <div
                     key={todoItem.task_id}
                     className="List-tile App-border-radius"
@@ -263,7 +264,7 @@ const Tododetail = ({ gettask_id }) => {
   return (
     <div className="List-view">
       {todosdetail &&
-        todosdetail.map((todoItemdetail) => (
+        todosdetail.slice().reverse().map((todoItemdetail) => (
           <div
             key={
               todoItemdetail.subtask_id
