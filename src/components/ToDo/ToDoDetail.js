@@ -1,38 +1,37 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import "./ToDo.css";
 import { supabase } from "../Client/client";
 import { TiDeleteOutline } from "react-icons/ti";
 
 
 export default function ToDoDetail(props) {
-  const task_id = props.task_id;
 
-
+  
 
   const [todos, setTodos] = useState([]);
 
   const selectTodos = async () => { 
-    console.log(task_id);
+
+    console.log(props.task_id);
     let { data } = await supabase
       .from("todo_subtask")
       .select("*")
-      //.eq("task_id",task_id)
+      //.eq("task_id",props.gettask_id)
       .order("subtask_id", { ascending: false });
     setTodos(data);
   };
 
   useEffect(() => {
-   
-    console.log(task_id);
     selectTodos();
 
   }, []);
-
+ 
   return ( 
     <div className="Todo-card"> 
-      <nav></nav> 
+  
       <h2>Todo Details</h2>
+ 
       <button onClick={selectTodos}>Tıkla</button>
       <div className="List-view">
         {todos &&
@@ -40,7 +39,7 @@ export default function ToDoDetail(props) {
             <Todo key={todoItem.subtask_id} {...todoItem} setTodos={setTodos} task_id={todoItem.task_id}/>
           ))}
       </div>
-      <AddTodo setTodos={selectTodos} task_id={task_id}/>
+      <AddTodo setTodos={selectTodos} task_id={props.gettask_id}/>
     </div>
   );
 }

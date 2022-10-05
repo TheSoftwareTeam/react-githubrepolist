@@ -8,21 +8,8 @@ import Todo from "../components/ToDo/ToDo";
 import { supabase } from "./Client/client";
 import ToDoDetail from "./ToDo/ToDoDetail";
 
-function Home(props) {
+function Home() {
 
-
-//   const [todos, setTodos] = useState([]);
-//   const selectTodos = async () => {
-//     let { data } = await supabase
-//       .from("todo_task")
-//       .select("*")
-//       .order("task_id", { ascending: false });
-//     setTodos(data);
-//   };
-
-//   useEffect(() => {
-//     selectTodos();
-//   }, []);
 
 
 
@@ -82,6 +69,7 @@ function Home(props) {
   }
 
   if (userDetail) {
+
     console.log(user);
     console.log(userDetail);
     return (
@@ -113,15 +101,9 @@ function Home(props) {
                   </RepoList>
                 </Card>
               </Col>
-              <Col sm="7">
-                <Card body className="card1">
-                  <Todo task_id={props.task_id}/>
-                </Card>
-                <Card body className="card2">
-                    <ToDoDetail task_id={props.task_id}/>
-                </Card>
-                
-              </Col>
+              
+                  <Todo />
+              
             </Row>
           </>
         )}
