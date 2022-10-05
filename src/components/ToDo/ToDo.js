@@ -2,7 +2,7 @@
 import React from "react";
 import { useEffect, useState, useCallback } from "react";
 import "./ToDo.css";
-import {Card, Col } from "reactstrap";
+import { Card, Col } from "reactstrap";
 
 import { supabase } from "../Client/client";
 import { TiDeleteOutline } from "react-icons/ti";
@@ -23,7 +23,6 @@ export default function ToDo() {
   }
   const [count] = useState(0);
   const [todos, setTodos] = useState([]);
-
 
   const selectTodos = async () => {
     let { data } = await supabase
@@ -70,7 +69,7 @@ export default function ToDo() {
     selectTodos();
     setEldekiId(eldeki);
   }, []);
-var index=1;
+  var index = 1;
   return (
     <Col sm="7">
       {isToggled ? (
@@ -80,41 +79,45 @@ var index=1;
             <nav></nav>
             <h2>My Todo List</h2>
             <div className="List-view ">
-              
               {todos &&
-                todos.slice().reverse().map((todoItem) => (
-                  <div
-                    key={todoItem.task_id}
-                    className="List-tile App-border-radius"
-                  >
-                    {index++}{"."}
-                    <input
-                      style={{
-                        width: "100%",
-                        height: "1.75rem",
-                        fontSize: "1.5rem",
-                        background: "transparent",
-                        border: "0.02rem solid black",
-                        borderRadius: 8,
-                        paddingLeft: 8,
-                      }}
-                      value={todoItem.task}
-                      onChange={(e) => {
-                        const { value } = e.target;
-                        setTodo(value);
-                      }}
-                    />
-                    
-                    <a className="details"
-                      onClick={() => {
-                        eldeki(todoItem.task_id);
-                        toggle();
-                      }}
+                todos
+                  .slice()
+                  .reverse()
+                  .map((todoItem) => (
+                    <div
+                      key={todoItem.task_id}
+                      className="List-tile App-border-radius"
                     >
-                      Details
-                    </a>
-                  </div>
-                ))}
+                      {index++}
+                      {"."}
+                      <input
+                        style={{
+                          width: "100%",
+                          height: "1.75rem",
+                          fontSize: "1.5rem",
+                          background: "transparent",
+                          border: "0.02rem solid black",
+                          borderRadius: 8,
+                          paddingLeft: 8,
+                        }}
+                        value={todoItem.task}
+                        onChange={(e) => {
+                          const { value } = e.target;
+                          setTodo(value);
+                        }}
+                      />
+
+                      <a
+                        className="details"
+                        onClick={() => {
+                          eldeki(todoItem.task_id);
+                          toggle();
+                        }}
+                      >
+                        Details
+                      </a>
+                    </div>
+                  ))}
             </div>
             <AddTodo setTodos={selectTodos} />
           </div>
@@ -128,8 +131,6 @@ var index=1;
             <button onClick={toggle}>Go Back</button>
 
             <Tododetail gettask_id={eldekiId} />
-
-            
           </div>
         </Card>
       )}
@@ -181,7 +182,6 @@ const AddTodo = ({ setTodos }) => {
     </form>
   );
 };
-
 
 const Tododetail = ({ gettask_id }) => {
   const [todosdetail, setTodosdetail] = useState([]);
@@ -260,62 +260,65 @@ const Tododetail = ({ gettask_id }) => {
       });
     }
   };
-  var index=1;
+  var index = 1;
   return (
     <div className="List-view">
       {todosdetail &&
-        todosdetail.slice().reverse().map((todoItemdetail) => (
-          <div
-            key={
-              todoItemdetail.subtask_id
-            }
-            className="List-tile App-border-radius"
-          >
-            {index++}{"."}
-            <input
-              checked={completed}
-              className="List-tile-leading"
-              type="checkbox"
-              onChange={(e) => {
-                e.preventDefault();
-                onCompleteTodo(
-                  todosdetail &&
-                    todosdetail.map(
-                      (todoItemdetail) => todoItemdetail.subtask_id
-                    )
-                );
-              }}
-            />
-            <input
-              style={{
-                width: "100%",
-                height: "1.75rem",
-                fontSize: "1.5rem",
-                background: "transparent",
-                border: "0.02rem solid black",
-                borderRadius: 8,
-                paddingLeft: 8,
-              }}
-              value={todoItemdetail.subtask}
-              onChange={(e) => {
-                const { value } = e.target;
-                setTododetail(value);
-              }}
-            />
+        todosdetail
+          .slice()
+          .reverse()
+          .map((todoItemdetail) => (
+            <div
+              key={todoItemdetail.subtask_id}
+              className="List-tile App-border-radius"
+            >
+              {index++}
+              {"."}
+              <input
+                checked={completed}
+                className="List-tile-leading"
+                type="checkbox"
+                onChange={(e) => {
+                  e.preventDefault();
+                  onCompleteTodo(
+                    todosdetail &&
+                      todosdetail.map(
+                        (todoItemdetail) => todoItemdetail.subtask_id
+                      )
+                  );
+                }}
+              />
+              <input
+                style={{
+                  width: "100%",
+                  height: "1.75rem",
+                  fontSize: "1.5rem",
+                  background: "transparent",
+                  border: "0.02rem solid black",
+                  borderRadius: 8,
+                  paddingLeft: 8,
+                }}
+                value={todoItemdetail.subtask}
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setTododetail(value);
+                }}
+              />
 
-            <TiDeleteOutline
-              className="List-tile-trailing"
-              onClick={onDeleteTodo}
-            />
-          </div>
-          
-        ))}<AddTododetail setTodosdetail={selectTodosdetail}
-            gettask_id={gettask_id}
-          />
+              <TiDeleteOutline
+                className="List-tile-trailing"
+                onClick={onDeleteTodo}
+              />
+            </div>
+          ))}
+      <AddTododetail
+        setTodosdetail={selectTodosdetail}
+        gettask_id={gettask_id}
+      />
     </div>
   );
 };
-const AddTododetail = ({setTodosdetail, gettask_id  }) => {
+const AddTododetail = ({ setTodosdetail, gettask_id }) => {
   //const task_id = props.task_id;
   const [subtask, setTask] = useState("");
   const onSubmit = (event) => {
@@ -333,11 +336,10 @@ const AddTododetail = ({setTodosdetail, gettask_id  }) => {
         console.log(data, error);
         if (!error) {
           setTodosdetail((prevTodos) => [data, ...prevTodos]);
-         //Sorunlu düzeltilecek (Aynı listeyi üstüne yazdırıyor.)
+          //Sorunlu düzeltilecek (Aynı listeyi üstüne yazdırıyor.)
         }
       });
-      console.log(subtask);
-      
+    console.log(subtask);
   };
 
   // const btn = document.getElementById("btn");
@@ -355,7 +357,6 @@ const AddTododetail = ({setTodosdetail, gettask_id  }) => {
         placeholder="Sub Task Description"
         type="text"
         value={subtask}
-        
         onChange={(e) => setTask(e.target.value)}
       />
       <button
