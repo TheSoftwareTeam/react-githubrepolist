@@ -23,6 +23,10 @@
 }
 .details{
     color: black;
-    cursor: pointer;
-    
+   
+    text-decoration-line: line;
   }
+.details:hover{
+    color: blue;
+    cursor: pointer;
+}

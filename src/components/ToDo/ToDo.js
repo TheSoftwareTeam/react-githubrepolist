@@ -70,7 +70,7 @@ export default function ToDo() {
     selectTodos();
     setEldekiId(eldeki);
   }, []);
-
+var index=1;
   return (
     <Col sm="7">
       {isToggled ? (
@@ -86,7 +86,7 @@ export default function ToDo() {
                     key={todoItem.task_id}
                     className="List-tile App-border-radius"
                   >
-                    {todoItem.task_id}.{todoItem.task.name}
+                    {index++}{"."}
                     <input
                       style={{
                         width: "100%",
@@ -104,7 +104,7 @@ export default function ToDo() {
                       }}
                     />
                     
-                    <a
+                    <a className="details"
                       onClick={() => {
                         eldeki(todoItem.task_id);
                         toggle();
@@ -259,18 +259,18 @@ const Tododetail = ({ gettask_id }) => {
       });
     }
   };
-
+  var index=1;
   return (
     <div className="List-view">
       {todosdetail &&
         todosdetail.map((todoItemdetail) => (
           <div
             key={
-              todosdetail &&
-              todosdetail.map((todoItemdetail) => todoItemdetail.subtask_id)
+              todoItemdetail.subtask_id
             }
             className="List-tile App-border-radius"
           >
+            {index++}{"."}
             <input
               checked={completed}
               className="List-tile-leading"
@@ -301,24 +301,6 @@ const Tododetail = ({ gettask_id }) => {
                 setTododetail(value);
               }}
             />
-            {todosdetail &&
-              todosdetail.map((todoItemdetail) => todoItemdetail.subtask) !==
-                todo && (
-                <button
-                  onClick={() =>
-                    onEditTodo(
-                      todosdetail &&
-                        todosdetail.map(
-                          (todoItemdetail) => todoItemdetail.subtask_id
-                        ),
-                      todo
-                    )
-                  }
-                  className="Todo-update-submit"
-                >
-                  save
-                </button>
-              )}
 
             <TiDeleteOutline
               className="List-tile-trailing"
