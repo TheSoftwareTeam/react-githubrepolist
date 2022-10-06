@@ -9,14 +9,12 @@ import { supabase } from "./Client/client";
 
 function Home() {
 
-
-
-
   const [userDetail, setUser1] = useState(null);
   const [user, setUser] = useState({
     prof: {},
     repos: [],
   });
+
 
   useEffect(() => {
     checkUser();

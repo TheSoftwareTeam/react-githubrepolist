@@ -9,7 +9,7 @@ import { TiDeleteOutline } from "react-icons/ti";
 
 export default function ToDo() {
   const [eldekiId, setEldekiId] = useState([]);
-
+  const [todos, setTodos] = useState([]);
   const [isToggled, setIsToggled] = useState(true);
 
   const toggle = useCallback(
@@ -21,8 +21,6 @@ export default function ToDo() {
   function eldeki(eldeki) {
     setEldekiId(eldeki);
   }
-  const [count] = useState(0);
-  const [todos, setTodos] = useState([]);
 
   const selectTodos = async () => {
     let { data } = await supabase
@@ -30,45 +28,15 @@ export default function ToDo() {
       .select("*")
       .order("task_id", { ascending: false });
     setTodos(data);
-  };
-
-  const [todo, setTodo] = useState(todos && todos.map((todoItem) => todoItem));
-  const [completed, setCompleted] = useState(
-    todos && todos.map((todoItem) => todoItem.is_completed)
-  );
-
-  const onEditTodo = (
-    task_id = todos && todos.map((todoItem) => todoItem.task_id)
-  ) => {
-    if (todo === "") return;
-    supabase
-      .from("todo_task")
-      .update({ task: todo })
-      .match({ task_id })
-      .then((value, error) => {
-        console.log(value, error);
-      });
-  };
-
-  const onCompleteTodo = (
-    task_id = todos && todos.map((todoItem) => todoItem.task_id)
-  ) => {
-    supabase
-      .from("todo_task")
-      .update({ is_completed: !completed })
-      .match({ task_id })
-      .then(({ data, error }) => {
-        console.log(data, error);
-        if (!error) {
-          setCompleted((prev) => !prev);
-        }
-      });
+    console.log(data);
   };
 
   useEffect(() => {
     selectTodos();
+
     setEldekiId(eldeki);
   }, []);
+  let data = [];
   var index = 1;
   return (
     <Col sm="7">
@@ -100,10 +68,10 @@ export default function ToDo() {
                           borderRadius: 8,
                           paddingLeft: 8,
                         }}
-                        value={todoItem.task}
+                        value={todoItem.task + " "}
                         onChange={(e) => {
                           const { value } = e.target;
-                          setTodo(value);
+                          setTodos(value);
                         }}
                       />
 
@@ -185,14 +153,15 @@ const AddTodo = ({ setTodos }) => {
 
 const Tododetail = ({ gettask_id }) => {
   const [todosdetail, setTodosdetail] = useState([]);
-  const [todo, setTododetail] = useState(
-    todosdetail &&
-      todosdetail.map((todoItemdetail) => todoItemdetail.subtask_id)
-  );
+
   const [completed, setCompleteddetail] = useState(
     todosdetail &&
-      todosdetail.map((todoItemdetail) => todoItemdetail.is_completed)
-  );
+      todosdetail
+        .slice()
+        .reverse()
+        .map((todoItemdetail) => todoItemdetail.is_complete)
+  ); //is_completed null dönüyor
+
   const selectTodosdetail = async () => {
     let { data } = await supabase
       .from("todo_subtask")
@@ -205,56 +174,32 @@ const Tododetail = ({ gettask_id }) => {
     selectTodosdetail();
   }, []);
 
-  const onEditTodo = (subtask_id) => {
-    if (todo === "") return;
-    supabase
-      .from("todo_subtask")
-      .select("*")
-      .eq(
-        "task_id",
-        todosdetail &&
-          todosdetail.map((todoItemdetail) => todoItemdetail.task_id)
-      )
-      .update({ subtask: todo })
-      .match({ subtask_id })
-      .then((value, error) => {
-        console.log(value, error);
-      });
-  };
-
   const onCompleteTodo = (subtask_id) => {
     supabase
       .from("todo_subtask")
-      .select("*")
-      .eq(
-        "task_id",
-        todosdetail &&
-          todosdetail.map((todoItemdetail) => todoItemdetail.task_id)
-      )
-      .update({ is_completed: !completed })
+      .update({ is_complete: !completed })
       .match({ subtask_id })
       .then(({ data, error }) => {
         console.log(data, error);
         if (!error) {
           setCompleteddetail((prev) => !prev);
         }
+        console.log(data);
       });
   };
 
-  const onDeleteTodo = async () => {
+  const onDeleteTodo = async (subtask_id) => {
     const { error } = await supabase
       .from("todo_subtask")
       .delete()
       .match(
-        todosdetail &&
-          todosdetail.map((todoItemdetail) => todoItemdetail.subtask_id)
+        {subtask_id}
       );
     if (!error) {
       setTodosdetail((prev) => {
         return prev.filter((todoItem) => {
           return (
-            todoItem.subtask_id !== todosdetail &&
-            todosdetail.map((todoItemdetail) => todoItemdetail.subtask_id)
+            todoItem.subtask_id !== subtask_id
           );
         });
       });
@@ -279,15 +224,15 @@ const Tododetail = ({ gettask_id }) => {
                 className="List-tile-leading"
                 type="checkbox"
                 onChange={(e) => {
+                  onCompleteTodo(todoItemdetail.subtask_id);
                   e.preventDefault();
-                  onCompleteTodo(
-                    todosdetail &&
-                      todosdetail.map(
-                        (todoItemdetail) => todoItemdetail.subtask_id
-                      )
-                  );
+
+                  console.log(completed);
                 }}
               />
+
+              {/* {todosdetail.length} */}
+
               <input
                 style={{
                   width: "100%",
@@ -297,17 +242,20 @@ const Tododetail = ({ gettask_id }) => {
                   border: "0.02rem solid black",
                   borderRadius: 8,
                   paddingLeft: 8,
+                  textDecorationLine: "line",
                 }}
                 value={todoItemdetail.subtask}
                 onChange={(e) => {
                   const { value } = e.target;
-                  setTododetail(value);
+                  setTodosdetail(value);
                 }}
               />
 
               <TiDeleteOutline
                 className="List-tile-trailing"
-                onClick={onDeleteTodo}
+                onClick={() => {
+                  onDeleteTodo(todoItemdetail.subtask_id);
+                }}
               />
             </div>
           ))}
