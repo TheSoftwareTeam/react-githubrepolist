@@ -30,3 +30,9 @@
     color: blue;
     cursor: pointer;
 }
+.noneLine{
+    text-decoration: none;
+}
+.line{
+    text-decoration:line-through;
+}

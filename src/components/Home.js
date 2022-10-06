@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { GoMarkGithub } from "react-icons/go";
 import { Container, Topbar, Title, RepoList } from "../styles";
 import { Row, Col, Card } from "reactstrap";
-import { Router, Route, BrowserRouter } from "react-router";
 import Repo from "../components/Repo/Repo";
 import Todo from "../components/ToDo/ToDo";
 import { supabase } from "./Client/client";

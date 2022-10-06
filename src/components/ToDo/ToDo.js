@@ -36,7 +36,6 @@ export default function ToDo() {
 
     setEldekiId(eldeki);
   }, []);
-  let data = [];
   var index = 1;
   return (
     <Col sm="7">
@@ -122,13 +121,6 @@ const AddTodo = ({ setTodos }) => {
       });
   };
 
-  // const btn = document.getElementById("btn");
-  // btn.addEventListener("click", function handleClick(event) {
-  //   event.preventDefault();
-  //   const text = document.getElementById("text");
-  //   console.log(text.value);
-  //   text.value = "";
-  // });
   return (
     <form className="Input-container">
       <input
@@ -242,13 +234,16 @@ const Tododetail = ({ gettask_id }) => {
                   border: "0.02rem solid black",
                   borderRadius: 8,
                   paddingLeft: 8,
-                  textDecorationLine: "line",
+                  
                 }}
+                className={todoItemdetail.is_complete?"line":"noneLine"}
+                
                 value={todoItemdetail.subtask}
                 onChange={(e) => {
                   const { value } = e.target;
                   setTodosdetail(value);
                 }}
+                
               />
 
               <TiDeleteOutline
@@ -267,7 +262,7 @@ const Tododetail = ({ gettask_id }) => {
   );
 };
 const AddTododetail = ({ setTodosdetail, gettask_id }) => {
-  //const task_id = props.task_id;
+  
   const [subtask, setTask] = useState("");
   const onSubmit = (event) => {
     event.preventDefault();
@@ -284,19 +279,11 @@ const AddTododetail = ({ setTodosdetail, gettask_id }) => {
         console.log(data, error);
         if (!error) {
           setTodosdetail((prevTodos) => [data, ...prevTodos]);
-          //Sorunlu düzeltilecek (Aynı listeyi üstüne yazdırıyor.)
         }
       });
     console.log(subtask);
   };
 
-  // const btn = document.getElementById("btn");
-  // btn.addEventListener("click", function handleClick(event) {
-  //   event.preventDefault();
-  //   const text = document.getElementById("text");
-  //   console.log(text.value);
-  //   text.value = "";
-  // });
   return (
     <form className="Input-container">
       <input
