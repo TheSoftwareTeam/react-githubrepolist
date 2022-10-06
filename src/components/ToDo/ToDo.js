@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState, useCallback } from "react";
 import "./ToDo.css";
 import { Card, Col } from "reactstrap";
-
+import {FaArrowLeft} from "react-icons/fa"
 import { supabase } from "../Client/client";
 import { TiDeleteOutline } from "react-icons/ti";
 
@@ -94,8 +94,8 @@ export default function ToDo() {
         <Card body className="card2">
           <div className="Todo-card">
             <h2>Todo Details</h2>
-
-            <button onClick={toggle}>Go Back</button>
+           
+            <button className="backBtn" onClick={toggle}> <FaArrowLeft/> </button>
 
             <Tododetail gettask_id={eldekiId} />
           </div>

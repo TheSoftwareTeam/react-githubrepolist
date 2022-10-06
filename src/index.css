@@ -13,43 +13,45 @@ body {
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
- 
 }
 
-.card1{
-
+.card1 {
   border: 2px solid black;
 }
 
-.card2{
- 
+.card2 {
   border: 2px solid black;
 }
 *::selection {
   background-color: #c2c2c2;
 }
 
-
-.login{
+.login {
   height: 25%;
 }
 nav {
   text-align: right;
 }
-.dataBtn{
-  
-    display: flex;
-    justify-content: center;
-    margin: 15px;
-    width: 12%;
-    height: 8%;
-    margin-top: 20px;
-    margin-right: 120px;
-    font-size: 20px;
-
-    border-radius: 15px;
+.dataBtn {
+  display: flex;
+  justify-content: center;
+  margin: 15px;
+  width: 12%;
+  height: 8%;
+  margin-top: 20px;
+  margin-right: 120px;
+  font-size: 20px;
+  border-radius: 10px;
+  background-color: #e0e5eb;
+  color: #34495e;
+  font-weight: bold;
+  transition: 0.4s;
 }
-.outBtn{
+.dataBtn:hover {
+  border-radius: 20px;
+}
+
+.btnSignOut {
   display: flex;
   justify-content: center;
   margin-left: 100%;
@@ -58,11 +60,78 @@ nav {
   margin-left: 88%;
   width: 12%;
   height: 8%;
-  
-
-  
   font-size: 20px;
   border-radius: 15px;
+  background-color: #34495e;
+  color: white;
+  transition: 0.4s;
+}
+.btnSignOut:hover {
+  display: flex;
+  justify-content: center;
+  margin-left: 100%;
+  margin-right: 100%;
+  right: 0;
+  margin-left: 88%;
+  width: 12%;
+  height: 8%;
+  font-size: 20px;
+  border-radius: 15px;
+  background-color: white;
+  color: #34495e;
+}
+
+.btnSignIn {
+  border-radius: 15px;
+  margin-top: 45px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  background-color: #34495e;
+  font-family: "Roboto", sans-serif;
+  padding: 10px;
+  color: white;
+  text-decoration: none;
+  justify-content: center;
+  transition: 0.4s;
+}
+
+.btnSignIn:hover {
+  border-radius: 25px;
+  margin-top: 45px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  background-color: white;
+  font-family: "Roboto", sans-serif;
+  padding: 10px;
+  color: #34495e;
+  text-decoration: none;
+  justify-content: center;
+}
+.githubIcon {
+  margin-bottom: 5px;
+  margin-right: 20px;
+}
+.todoText {
+  color: #34495e;
+  margin-top: 100px;
+  font-family: cursive;
+  font-weight: bold;
+}
+
+.backBtn {
+  font-size: 25px;
+  color: #34495e;
+  padding-bottom: 10px;
+  width: 50px;
+  border-radius: 30px;
+  background-color: #e0e5eb;
+  transition: 0.2s;
+}
+.backBtn:hover {
+  background-color: #34495e;
+  color: #e0e5eb;
 }
 
 .App {
@@ -108,13 +177,12 @@ nav {
   font-size: 1.25rem;
   padding-left: 0.75rem;
 
-
   transition: var(--app-transition);
 }
 
 .App-button {
   border-radius: 0.5rem;
- 
+
   background-color: #fff;
   box-shadow: 2px 2px var(--shadow-color);
   color: #282c34;
@@ -127,7 +195,10 @@ nav {
   width: 6rem;
 }
 
-.Input-field:focus, .App-button:hover, .App-button:focus, .List-tile:hover {
+.Input-field:focus,
+.App-button:hover,
+.App-button:focus,
+.List-tile:hover {
   transform: translate(-4px, -4px);
   box-shadow: 4px 4px var(--shadow-color);
 }

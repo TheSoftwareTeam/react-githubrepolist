@@ -70,7 +70,7 @@ function Home() {
     console.log(userDetail);
     return (
       <Container>
-        <button className="outBtn" onClick={signOut}>
+        <button className="btnSignOut" onClick={signOut}>
           Sign out
         </button>
 
@@ -108,8 +108,8 @@ function Home() {
   } else {
     return (
       <div className="App">
-        <h1>Hello, please sign in!</h1>
-        <button onClick={signInWithGithub}>Sign In</button>
+        <h2 className="todoText">React GitHub Todo List </h2>
+        <button  className="btnSignIn" onClick={signInWithGithub}> <GoMarkGithub className="githubIcon" size="40px"  /> Sign in with GitHub</button>
       </div>
     );
   }
