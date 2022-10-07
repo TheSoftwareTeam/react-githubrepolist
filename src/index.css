@@ -17,10 +17,12 @@ body {
 
 .card1 {
   border: 2px solid black;
+  border-radius: 7px;
 }
 
 .card2 {
   border: 2px solid black;
+  border-radius: 7px;
 }
 *::selection {
   background-color: #c2c2c2;

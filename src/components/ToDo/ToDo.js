@@ -60,12 +60,13 @@ export default function ToDo() {
                       <input
                         style={{
                           width: "100%",
-                          height: "1.75rem",
+                          height: "2.1rem",
                           fontSize: "1.5rem",
                           background: "transparent",
                           border: "0.02rem solid black",
                           borderRadius: 8,
                           paddingLeft: 8,
+                         
                         }}
                         value={todoItem.task + " "}
                         onChange={(e) => {
@@ -228,7 +229,7 @@ const Tododetail = ({ gettask_id }) => {
               <input
                 style={{
                   width: "100%",
-                  height: "1.75rem",
+                  height: "2.1rem",
                   fontSize: "1.5rem",
                   background: "transparent",
                   border: "0.02rem solid black",

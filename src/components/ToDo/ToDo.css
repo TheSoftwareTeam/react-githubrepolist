@@ -36,3 +36,10 @@
 .line{
     text-decoration:line-through;
 }
+.List-tile-trailing{
+    height: 35px;
+    width: 40px;
+}
+.List-tile-leading{
+    margin-bottom: 3px;
+}
