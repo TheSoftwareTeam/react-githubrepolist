@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState, useCallback } from "react";
 import "./ToDo.css";
 import { Card, Col } from "reactstrap";
-import {FaArrowLeft} from "react-icons/fa"
+import { FaArrowLeft } from "react-icons/fa";
 import { supabase } from "../Client/client";
 import { TiDeleteOutline } from "react-icons/ti";
 
@@ -14,8 +14,8 @@ export default function ToDo() {
 
   const toggle = useCallback(
     () => setIsToggled(!isToggled),
-    [isToggled, setIsToggled],
-    console.log(isToggled)
+    [isToggled, setIsToggled]
+    //console.log(isToggled)
   );
 
   function eldeki(eldeki) {
@@ -26,16 +26,16 @@ export default function ToDo() {
     let { data } = await supabase
       .from("todo_task")
       .select("*")
-      .order("task_id", { ascending: false });
+      .order("task_id", { ascending: true });
     setTodos(data);
-    console.log(data);
+    //console.log(data);
   };
 
   useEffect(() => {
     selectTodos();
-
     setEldekiId(eldeki);
   }, []);
+
   var index = 1;
   return (
     <Col sm="7">
@@ -47,45 +47,41 @@ export default function ToDo() {
             <h2>My Todo List</h2>
             <div className="List-view ">
               {todos &&
-                todos
-                  .slice()
-                  .reverse()
-                  .map((todoItem) => (
-                    <div
-                      key={todoItem.task_id}
-                      className="List-tile App-border-radius"
-                    >
-                      {index++}
-                      {"."}
-                      <input
-                        style={{
-                          width: "100%",
-                          height: "2.1rem",
-                          fontSize: "1.5rem",
-                          background: "transparent",
-                          border: "0.02rem solid black",
-                          borderRadius: 8,
-                          paddingLeft: 8,
-                         
-                        }}
-                        value={todoItem.task + " "}
-                        onChange={(e) => {
-                          const { value } = e.target;
-                          setTodos(value);
-                        }}
-                      />
+                todos.map((todoItem) => (
+                  <div
+                    key={todoItem.task_id}
+                    className="List-tile App-border-radius"
+                  >
+                    {index++}
+                    {"."}
+                    <input
+                      style={{
+                        width: "100%",
+                        height: "2.1rem",
+                        fontSize: "1.5rem",
+                        background: "transparent",
+                        border: "0.02rem solid black",
+                        borderRadius: 8,
+                        paddingLeft: 8,
+                      }}
+                      value={todoItem.task}
+                      onChange={(e) => {
+                        const { value } = e.target;
+                        setTodos(value);
+                      }}
+                    />
 
-                      <a
-                        className="details"
-                        onClick={() => {
-                          eldeki(todoItem.task_id);
-                          toggle();
-                        }}
-                      >
-                        Details
-                      </a>
-                    </div>
-                  ))}
+                    <a
+                      className="details"
+                      onClick={() => {
+                        eldeki(todoItem.task_id);
+                        toggle();
+                      }}
+                    >
+                      Details
+                    </a>
+                  </div>
+                ))}
             </div>
             <AddTodo setTodos={selectTodos} />
           </div>
@@ -95,8 +91,11 @@ export default function ToDo() {
         <Card body className="card2">
           <div className="Todo-card">
             <h2>Todo Details</h2>
-           
-            <button className="backBtn" onClick={toggle}> <FaArrowLeft/> </button>
+
+            <button className="backBtn" onClick={toggle}>
+              {" "}
+              <FaArrowLeft />{" "}
+            </button>
 
             <Tododetail gettask_id={eldekiId} />
           </div>
@@ -149,10 +148,7 @@ const Tododetail = ({ gettask_id }) => {
 
   const [completed, setCompleteddetail] = useState(
     todosdetail &&
-      todosdetail
-        .slice()
-        .reverse()
-        .map((todoItemdetail) => todoItemdetail.is_complete)
+      todosdetail.map((todoItemdetail) => todoItemdetail.is_complete)
   ); //is_completed null dönüyor
 
   const selectTodosdetail = async () => {
@@ -160,15 +156,15 @@ const Tododetail = ({ gettask_id }) => {
       .from("todo_subtask")
       .select("*")
       .eq("task_id", gettask_id)
-      .order("subtask_id", { ascending: false });
+      .order("subtask_id", { ascending: true });
     setTodosdetail(data);
   };
   useEffect(() => {
     selectTodosdetail();
   }, []);
 
-  const onCompleteTodo = (subtask_id) => {
-    supabase
+  const onCompleteTodo = async (subtask_id) => {
+    await supabase
       .from("todo_subtask")
       .update({ is_complete: !completed })
       .match({ subtask_id })
@@ -185,15 +181,11 @@ const Tododetail = ({ gettask_id }) => {
     const { error } = await supabase
       .from("todo_subtask")
       .delete()
-      .match(
-        {subtask_id}
-      );
+      .match({ subtask_id });
     if (!error) {
       setTodosdetail((prev) => {
         return prev.filter((todoItem) => {
-          return (
-            todoItem.subtask_id !== subtask_id
-          );
+          return todoItem.subtask_id !== subtask_id;
         });
       });
     }
@@ -202,10 +194,11 @@ const Tododetail = ({ gettask_id }) => {
   return (
     <div className="List-view">
       {todosdetail &&
-        todosdetail
-          .slice()
-          .reverse()
-          .map((todoItemdetail) => (
+        todosdetail.map((todoItemdetail) =>
+          todoItemdetail.is_complete ? (
+            <div></div>
+          ) : (
+            
             <div
               key={todoItemdetail.subtask_id}
               className="List-tile App-border-radius"
@@ -213,18 +206,15 @@ const Tododetail = ({ gettask_id }) => {
               {index++}
               {"."}
               <input
-                checked={completed}
+                checked={todoItemdetail.is_complete}
                 className="List-tile-leading"
                 type="checkbox"
                 onChange={(e) => {
-                  onCompleteTodo(todoItemdetail.subtask_id);
                   e.preventDefault();
-
-                  console.log(completed);
+                  onCompleteTodo(todoItemdetail.subtask_id);
+                  selectTodosdetail();
                 }}
               />
-
-              {/* {todosdetail.length} */}
 
               <input
                 style={{
@@ -235,16 +225,13 @@ const Tododetail = ({ gettask_id }) => {
                   border: "0.02rem solid black",
                   borderRadius: 8,
                   paddingLeft: 8,
-                  
                 }}
-                className={todoItemdetail.is_complete?"line":"noneLine"}
-                
+                className={todoItemdetail.is_complete ? "line" : "noneLine"}
                 value={todoItemdetail.subtask}
                 onChange={(e) => {
                   const { value } = e.target;
                   setTodosdetail(value);
                 }}
-                
               />
 
               <TiDeleteOutline
@@ -254,7 +241,60 @@ const Tododetail = ({ gettask_id }) => {
                 }}
               />
             </div>
-          ))}
+            
+          )
+        )}<div><h2>Completed Subtasks</h2></div>
+      {todosdetail &&
+        todosdetail.map((todoItemdetail) =>
+          todoItemdetail.is_complete ? (
+            
+            
+            <div
+              key={todoItemdetail.subtask_id}
+              className="List-tile App-border-radius"
+            >
+             
+              <input
+                checked={todoItemdetail.is_complete}
+                className="List-tile-leading"
+                type="checkbox"
+                onChange={(e) => {
+                  e.preventDefault();
+                  onCompleteTodo(todoItemdetail.subtask_id);
+                  selectTodosdetail();
+                }}
+              />
+
+              <input
+                style={{
+                  width: "100%",
+                  height: "2.1rem",
+                  fontSize: "1.5rem",
+                  background: "transparent",
+                  border: "0.02rem solid black",
+                  borderRadius: 8,
+                  paddingLeft: 8,
+                }}
+                className={todoItemdetail.is_complete ? "line" : "noneLine"}
+                value={todoItemdetail.subtask}
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setTodosdetail(value);
+                }}
+              />
+
+              <TiDeleteOutline
+                className="List-tile-trailing"
+                onClick={() => {
+                  onDeleteTodo(todoItemdetail.subtask_id);
+                }}
+              />
+            </div>
+          
+          ) : (
+            <div></div>
+          )
+        )}
       <AddTododetail
         setTodosdetail={selectTodosdetail}
         gettask_id={gettask_id}
@@ -263,7 +303,6 @@ const Tododetail = ({ gettask_id }) => {
   );
 };
 const AddTododetail = ({ setTodosdetail, gettask_id }) => {
-  
   const [subtask, setTask] = useState("");
   const onSubmit = (event) => {
     event.preventDefault();
