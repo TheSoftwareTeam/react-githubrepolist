@@ -198,7 +198,6 @@ const Tododetail = ({ gettask_id }) => {
           todoItemdetail.is_complete ? (
             <div></div>
           ) : (
-            
             <div
               key={todoItemdetail.subtask_id}
               className="List-tile App-border-radius"
@@ -241,19 +240,17 @@ const Tododetail = ({ gettask_id }) => {
                 }}
               />
             </div>
-            
           )
-        )}<div><h2>Completed Subtasks</h2></div>
+        )}
+      <hr></hr>
+      <h2>Completed Subtasks</h2>
       {todosdetail &&
         todosdetail.map((todoItemdetail) =>
           todoItemdetail.is_complete ? (
-            
-            
             <div
               key={todoItemdetail.subtask_id}
               className="List-tile App-border-radius"
             >
-             
               <input
                 checked={todoItemdetail.is_complete}
                 className="List-tile-leading"
@@ -290,7 +287,6 @@ const Tododetail = ({ gettask_id }) => {
                 }}
               />
             </div>
-          
           ) : (
             <div></div>
           )
