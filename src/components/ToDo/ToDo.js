@@ -11,6 +11,7 @@ export default function ToDo() {
   const [eldekiId, setEldekiId] = useState([]);
   const [todos, setTodos] = useState([]);
   const [isToggled, setIsToggled] = useState(true);
+  
 
   const toggle = useCallback(
     () => setIsToggled(!isToggled),
@@ -18,10 +19,12 @@ export default function ToDo() {
     //console.log(isToggled)
   );
 
+  //todo detay sayfasına todo Id gönderme
   function eldeki(eldeki) {
     setEldekiId(eldeki);
   }
 
+  //todo getirme
   const selectTodos = async () => {
     let { data } = await supabase
       .from("todo_task")
@@ -37,8 +40,10 @@ export default function ToDo() {
   }, []);
 
   var index = 1;
+
   return (
     <Col sm="7">
+      {/* Toggle ile (Todo ve Todo detay) sayfası arasında geçiş yapma */}
       {isToggled ? (
         //ToDo
         <Card body className="card1">
@@ -52,8 +57,10 @@ export default function ToDo() {
                     key={todoItem.task_id}
                     className="List-tile App-border-radius"
                   >
+                    {/* toplam todo sayısı */}
                     {index++}
                     {"."}
+
                     <input
                       style={{
                         width: "100%",
@@ -70,7 +77,9 @@ export default function ToDo() {
                         setTodos(value);
                       }}
                     />
+                   
 
+                    {/* todo detay sayfası görüntüleme */}
                     <a
                       className="details"
                       onClick={() => {
@@ -81,6 +90,7 @@ export default function ToDo() {
                       Details
                     </a>
                   </div>
+                  
                 ))}
             </div>
             <AddTodo setTodos={selectTodos} />
@@ -104,6 +114,7 @@ export default function ToDo() {
     </Col>
   );
 }
+//Todo Ekleme
 const AddTodo = ({ setTodos }) => {
   const [task, setTask] = useState("");
   const onSubmit = (event) => {
@@ -143,6 +154,7 @@ const AddTodo = ({ setTodos }) => {
   );
 };
 
+//Subtask
 const Tododetail = ({ gettask_id }) => {
   const [todosdetail, setTodosdetail] = useState([]);
 
@@ -151,6 +163,7 @@ const Tododetail = ({ gettask_id }) => {
       todosdetail.map((todoItemdetail) => todoItemdetail.is_complete)
   ); //is_completed null dönüyor
 
+  //Subtask getirme
   const selectTodosdetail = async () => {
     let { data } = await supabase
       .from("todo_subtask")
@@ -163,6 +176,7 @@ const Tododetail = ({ gettask_id }) => {
     selectTodosdetail();
   }, []);
 
+  //Subtask Tamamlandı-Tamamlanmadı
   const onCompleteTodo = async (subtask_id) => {
     await supabase
       .from("todo_subtask")
@@ -177,6 +191,7 @@ const Tododetail = ({ gettask_id }) => {
       });
   };
 
+  //Subtask Silme
   const onDeleteTodo = async (subtask_id) => {
     const { error } = await supabase
       .from("todo_subtask")
@@ -198,6 +213,7 @@ const Tododetail = ({ gettask_id }) => {
           todoItemdetail.is_complete ? (
             <div></div>
           ) : (
+            // Tamamlanmayan todo detay
             <div
               key={todoItemdetail.subtask_id}
               className="List-tile App-border-radius"
@@ -214,6 +230,8 @@ const Tododetail = ({ gettask_id }) => {
                   selectTodosdetail();
                 }}
               />
+
+     
 
               <input
                 style={{
@@ -242,7 +260,10 @@ const Tododetail = ({ gettask_id }) => {
             </div>
           )
         )}
+
       <hr></hr>
+
+      {/* Tamamlanan Todo detay */}
       <h2>Completed Subtasks</h2>
       {todosdetail &&
         todosdetail.map((todoItemdetail) =>
@@ -298,6 +319,7 @@ const Tododetail = ({ gettask_id }) => {
     </div>
   );
 };
+//Subtask ekleme
 const AddTododetail = ({ setTodosdetail, gettask_id }) => {
   const [subtask, setTask] = useState("");
   const onSubmit = (event) => {
