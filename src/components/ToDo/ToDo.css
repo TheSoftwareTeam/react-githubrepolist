@@ -34,7 +34,9 @@
     text-decoration: none;
 }
 .line{
-    text-decoration:line-through;
+    text-decoration-line:line-through;
+    
+
 }
 .List-tile-trailing{
     height: 35px;
