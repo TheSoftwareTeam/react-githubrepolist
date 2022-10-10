@@ -1,7 +1,6 @@
 import React from "react";
 import { GoRepoForked, GoLaw } from "react-icons/go";
 import { FaCode } from "react-icons/fa";
-import { Router, Route } from "react-router";
 
 import {
   RepoLink,

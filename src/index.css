@@ -44,10 +44,11 @@ nav {
   margin-right: 120px;
   font-size: 20px;
   border-radius: 10px;
-  background-color: #e0e5eb;
+  background-color: #34495e;
   color: #34495e;
   font-weight: bold;
   transition: 0.4s;
+  border: 0px;
 }
 .dataBtn:hover {
   border-radius: 20px;

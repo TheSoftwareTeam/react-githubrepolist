@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import "./ToDo.css";
 import { Card, Col } from "reactstrap";
 import { FaArrowLeft } from "react-icons/fa";
@@ -11,7 +11,6 @@ export default function ToDo() {
   const [eldekiId, setEldekiId] = useState([]);
   const [todos, setTodos] = useState([]);
   const [isToggled, setIsToggled] = useState(true);
-  
 
   const toggle = useCallback(
     () => setIsToggled(!isToggled),
@@ -34,9 +33,11 @@ export default function ToDo() {
     //console.log(data);
   };
 
+
   useEffect(() => {
     selectTodos();
     setEldekiId(eldeki);
+    
   }, []);
 
   var index = 1;
@@ -75,9 +76,10 @@ export default function ToDo() {
                       onChange={(e) => {
                         const { value } = e.target;
                         setTodos(value);
+
                       }}
                     />
-                   
+               
 
                     {/* todo detay sayfası görüntüleme */}
                     <a

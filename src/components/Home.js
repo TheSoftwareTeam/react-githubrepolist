@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { GoMarkGithub } from "react-icons/go";
 import { Container, Topbar, Title, RepoList } from "../styles";
 import { Row, Col, Card } from "reactstrap";
@@ -7,29 +7,37 @@ import Todo from "../components/ToDo/ToDo";
 import { supabase } from "./Client/client";
 
 function Home() {
-
   const [userDetail, setUser1] = useState(null);
   const [user, setUser] = useState({
     prof: {},
     repos: [],
   });
-
+  const ref = useRef(null);
 
   useEffect(() => {
     checkUser();
     window.addEventListener("hashchange", function () {
       checkUser();
     });
+
+    setTimeout(() => {
+      ref.current.click();
+    }, 500);
   }, []);
+
+  //Kullanıcı giriş kontrol
   async function checkUser() {
     const userDetail = supabase.auth.user();
     setUser1(userDetail);
   }
+
+  //Giriş yap
   async function signInWithGithub() {
     await supabase.auth.signIn({
       provider: "github",
     });
   }
+  //Çıkış yap
   async function signOut() {
     await supabase.auth.signOut();
     setUser1(null);
@@ -39,6 +47,7 @@ function Home() {
     search();
   }
 
+  //Github repo çekme
   async function getApiData() {
     const [prof, repos] = await Promise.all([
       fetch(
@@ -65,7 +74,6 @@ function Home() {
   }
 
   if (userDetail) {
-
     console.log(user);
     console.log(userDetail);
     return (
@@ -76,9 +84,10 @@ function Home() {
 
         <Topbar>
           <Title>ListRepos</Title>
-          <button className="dataBtn" onClick={getData}>
-            Verileri Getir
-          </button>
+
+          {/* Verileri getir */}
+          <button className="dataBtn" ref={ref} onClick={getData}></button>
+
           <GoMarkGithub size="40px" color="#eee" />
         </Topbar>
 
@@ -97,9 +106,9 @@ function Home() {
                   </RepoList>
                 </Card>
               </Col>
-              
-                  <Todo />
-              
+
+              {/* Todo */}
+              <Todo />
             </Row>
           </>
         )}
@@ -109,7 +118,11 @@ function Home() {
     return (
       <div className="App">
         <h2 className="todoText">React GitHub Todo List </h2>
-        <button  className="btnSignIn" onClick={signInWithGithub}> <GoMarkGithub className="githubIcon" size="40px"  /> Sign in with GitHub</button>
+        <button className="btnSignIn" onClick={signInWithGithub}>
+          {" "}
+          <GoMarkGithub className="githubIcon" size="40px" /> Sign in with
+          GitHub
+        </button>
       </div>
     );
   }
