@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "./ToDo.css";
 import { Card, Col } from "reactstrap";
 import { FaArrowLeft } from "react-icons/fa";
@@ -8,9 +8,11 @@ import { supabase } from "../Client/client";
 import { TiDeleteOutline } from "react-icons/ti";
 
 export default function ToDo() {
+
   const [eldekiId, setEldekiId] = useState([]);
   const [todos, setTodos] = useState([]);
   const [isToggled, setIsToggled] = useState(true);
+
 
   const toggle = useCallback(
     () => setIsToggled(!isToggled),
@@ -30,7 +32,8 @@ export default function ToDo() {
       .select("*")
       .order("task_id", { ascending: true });
     setTodos(data);
-    //console.log(data);
+    console.log(data);
+
   };
 
 
@@ -79,7 +82,6 @@ export default function ToDo() {
 
                       }}
                     />
-               
 
                     {/* todo detay sayfası görüntüleme */}
                     <a
@@ -116,6 +118,7 @@ export default function ToDo() {
     </Col>
   );
 }
+
 //Todo Ekleme
 const AddTodo = ({ setTodos }) => {
   const [task, setTask] = useState("");
@@ -133,7 +136,6 @@ const AddTodo = ({ setTodos }) => {
         }
       });
   };
-
   return (
     <form className="Input-container">
       <input
@@ -178,6 +180,7 @@ const Tododetail = ({ gettask_id }) => {
     selectTodosdetail();
   }, []);
 
+  
   //Subtask Tamamlandı-Tamamlanmadı
   const onCompleteTodo = async (subtask_id) => {
     await supabase

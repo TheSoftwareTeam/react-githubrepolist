@@ -74,8 +74,8 @@ function Home() {
   }
 
   if (userDetail) {
-    console.log(user);
-    console.log(userDetail);
+    //console.log(user);
+    //console.log(userDetail);
     return (
       <Container>
         <button className="btnSignOut" onClick={signOut}>
